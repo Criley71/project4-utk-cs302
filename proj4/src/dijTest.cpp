@@ -7,10 +7,79 @@
 #include <ctime>
 using namespace std;
 // Main Execution
+// r = (i / c);
+// c= (i % c);
+int infinity = numeric_limits<int>::max();
+void dijkstra(vector<pair<int, priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>>> &grid, int start, int r, int c, int end){
+    vector<int> distances(r*c, infinity);
+    vector<bool> visited(r*c, false);
+    vector<int> adjacentTiles;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> weightIndexpq;
+    int currentTile;
+    int newDistance;
+
+    distances[start] = 0;
+    weightIndexpq.push(make_pair(0, start));
+
+
+    for(int i = 0; i < 100; i++){
+        cout << "index: "<< grid[i].first;
+        while(!grid[i].second.empty()){
+            cout << "   adj index: " << grid[i].second.top().second << " weight: " << grid[i].second.top().first;
+            grid[i].second.pop();
+        }
+        cout << "\n";
+
+        
+    }
 
 
 
+    while(!weightIndexpq.empty()){
+        currentTile = weightIndexpq.top().second; // will pick the smallest distance, since we set the start as zero it will pick it first
+        weightIndexpq.pop();
+        cout << "current Tile: " << currentTile << "\n";
+        if(visited[currentTile] == true){
+            continue;
+        }
+        if(currentTile == end){
+            break;
+        }
+        //adjweight: indexWithPrioq[i].second.top().first;
+        //adjindex : indexWithPrioq[i].second.top().second
+        cout << grid[currentTile].second.size() << "\n";
+        adjacentTiles.resize(grid[currentTile].second.size());
+        cout << adjacentTiles.size() << "\n";
+        while(!grid[currentTile].second.empty()){
+            newDistance = distances[currentTile] + grid[currentTile].second.top().first;
 
+            if(newDistance < distances[grid[currentTile].second.top().second]){
+                distances[grid[currentTile].second.top().second] = newDistance;
+                weightIndexpq.push(make_pair(newDistance, grid[currentTile].second.top().second));
+                grid[currentTile].second.pop();
+            }
+        }
+        visited[currentTile] == true;
+    }
+    
+
+
+
+    for(int i = 0; i < distances.size(); i++){
+        if(i < 10){
+            if(i % 10 == 9){
+                cout << "0" << distances[i] << " |\n";
+            }
+            else
+                cout << "0" << distances[i] << " | ";
+        }
+        else if(i % 10 != 9)
+            cout << distances[i] << " | ";
+        else    
+            cout << distances[i] << " | \n";
+    }
+
+}
 int main(int argc, char *argv[]) {
     srand(time(nullptr));
     int randomWeight;
@@ -36,7 +105,7 @@ int main(int argc, char *argv[]) {
         else if(i % 10 != 9)
             cout << grid[i] << " | ";
         else    
-            cout << grid[i] << " | \n";
+            cout << grid[i] << " | test\n";
     }
     cout << "\n";
     cout << "\n";
@@ -105,7 +174,7 @@ int main(int argc, char *argv[]) {
    //     cout << "index: " << tileWeightpq.top().first << " weight: " << tileWeightpq.top().second << "\n";
       //  tileWeightpq.pop();
   //  }
-
+/*
     for(int i = 0; i < grid.size(); i++){
         cout << "index: "<< indexWithPrioq[i].first;
         while(!indexWithPrioq[i].second.empty()){
@@ -113,9 +182,11 @@ int main(int argc, char *argv[]) {
             indexWithPrioq[i].second.pop();
         }
         cout << "\n";
+
+        
     }
+    */
+    dijkstra(indexWithPrioq, 0, 10, 10, 99);
+
     return 0;
-
-
 }
-
