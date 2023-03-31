@@ -1,4 +1,8 @@
 // dijsktras.cpp
+// Malika Arifova, Connor Riley
+// 3/31/2023
+// GitHub: https://github.com/Criley71/project4-utk-cs302 
+// This implements a pathfinding algorithm on a map 
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -7,9 +11,15 @@
 #include <stack>
 #include <ctime>
 using namespace std;
-// Main Execution
-int infinity = numeric_limits<int>::max();
 
+
+int infinity = numeric_limits<int>::max();
+/**
+ * The dijkstras algorithm takes in the adjacency matrix, the starting index, map size, end index and a vector of weights for each index.
+ * It starts by making a distances vector the size of the board and fills them with the value of infinity, a bool vector to store the visited indices
+ * and a prioirity queue to sort the next possible path choice by smallest distance. We start at the starting index and pull its adjacent cells and put 
+ * the total weight index pairs into a priority queue. it will do this for the whole grid and return the total distances of each index in a vector.
+ */
 vector<int> dijkstra(vector<pair<int, priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>>> grid, int start, int r, int c, int end, vector<int> costVec){
     vector<int> distances(r*c, infinity);
     vector<bool> visited(r*c, false);
@@ -28,9 +38,6 @@ vector<int> dijkstra(vector<pair<int, priority_queue<pair<int, int>, vector<pair
         if(visited[currentTile] == true){
             continue;
         }
-       // if(currentTile == end){
-         //   break;
-       // }
           
        
         while(!grid[currentTile].second.empty()){
@@ -48,7 +55,10 @@ vector<int> dijkstra(vector<pair<int, priority_queue<pair<int, int>, vector<pair
     return distances;
 
 }
-
+/**
+ * the pathfinder algorithm works the same way as dijkstras, but doesnt calculate total weight and instead back tracks until we reach the original starting point
+ * It stores the path into a stack that it will return.
+ */
 stack<int> pathFinder(vector<pair<int, priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>>> grid, int start, int r, int c, int end, vector<int> distances)
 {
     int currentTile;
@@ -101,6 +111,10 @@ int main(int argc, char *argv[]) {
     vector<pair<int, int>> totalWeightIndexPairs;// first = index         second = total weight got from total distaces
     vector<pair<int, priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>>> indexTotalWeightWithpq;
 
+    /**
+     * We start by reading in the inputs needed to generate a map and resize all containers to be the same size as the grid. 
+     * We fill in containers of the map as letters, and of numbers indicating there weight.
+     */
 
     cin >> numTiles;//get number of different tiles, map a vector of pairs to access cost
     charCostVec.resize(numTiles);
@@ -139,8 +153,10 @@ int main(int argc, char *argv[]) {
         indexWieghtPairs[i].first = i;
         indexWieghtPairs[i].second = costMap[i];
     }
-//like superball i used the same logic for pairing an index with its adjacent cells, basically checking if its on the edge of the map
-//as that limits it neighbor amount
+//Next we make the adjacency matrix. we used the set up of vector<pair<int, priority_queue<pair<int, int>>>
+//putting names to the ints it would look like vector<pair<index, priority_queue<adjacentCellWeight, adjacentCellIndex>>> 
+//Then like superball i used the same logic for pairing an index with its adjacent cells, basically checking if its on the edge of the map
+//as that limits it neighbor amount. Once made i run dijkstras and get the total distances in a vector
 for(int i = 0; i < r * c; i++){
         indexWithPrioq[i].first = i;
         if(i == 0){ //top left/ zero case
@@ -189,6 +205,8 @@ for(int i = 0; i < r * c; i++){
     }
     totalDistances = dijkstra(indexWithPrioq, startIndex, r, c, endIndex, costMap);
     
+    //now that we have the total distances we now can remake the adjacency matrix the same way as before, but use the total distance
+    //to reach an index instead of the index's personal weight.
     for(int i = 0; i < totalWeightIndexPairs.size(); i++){
         totalWeightIndexPairs[i].first = i;
         totalWeightIndexPairs[i].second = totalDistances[i];
@@ -240,6 +258,8 @@ for(int i = 0; i < r * c; i++){
         }
 
     }
+//we call the pathfinder algorithm and store it in a stack
+//we print the total distance and the path it took.
 path = pathFinder(indexTotalWeightWithpq, endIndex, r, c, startIndex, totalDistances);
 cout << totalDistances[endIndex] << "\n";
 while(!path.empty()){
