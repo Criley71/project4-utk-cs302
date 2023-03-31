@@ -1,8 +1,14 @@
-Connor Riley and Malika Arifova
+USAGE: This assumes that your dijkstras and generate_map.py are in your src directory and your makefile being one hierchary outside the src directory.
 
-Project 04: Path Finding
+To run the grdescripts it is just make test. 
+
+To generate a random map of N size and run it, it is make generate_map N=# , # = dimension
+
+Project 04: Path Finding  
 ========================
+- 
 
+Connor Riley and Malika Arifova
 
 This project implements a [Dijkstra's Algorithm] to perform rudimentary path
 finding on a 2D tile-based map.
