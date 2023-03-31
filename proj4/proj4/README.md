@@ -1,6 +1,6 @@
 USAGE: This assumes that your dijkstras and generate_map.py are in your src directory and your makefile being one hierchary outside the src directory. Essentially how the file structure was set up for the project
 
-To run the grdescripts it is just make test. 
+To run the grdescripts it is just make test. DO THIS FIRST as it will make the dijkstra executable that is also used by the python script 
 
 To generate a random map of N size and run it, it is make generate_map N=# , # = dimension
 
