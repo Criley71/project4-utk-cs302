@@ -1,5 +1,7 @@
-USAGE: This assumes that your dijkstras and generate_map.py are in your src directory and your makefile being one hierchary outside the src directory. 
+USAGE: This assumes that your dijkstras and generate_map.py are in your src directory and your makefile being one hierchary outside the src directory.
+
 To run the grdescripts it is just make test. 
+
 To generate a random map of N size and run it, it is make generate_map N=# , # = dimension
 
 Project 04: Path Finding  
